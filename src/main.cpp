@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
+#include "Mesh/Quad.h"
 
 void render();
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
@@ -16,8 +17,7 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 bool keys[1024];
 
 int main()
-{
-
+{   
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
