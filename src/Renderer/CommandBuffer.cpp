@@ -9,7 +9,7 @@ CommandBuffer::CommandBuffer()
 
 }
 
-CommandBuffer::CommandBuffer()
+CommandBuffer::~CommandBuffer()
 {
     Clear();
 }
@@ -39,5 +39,5 @@ void CommandBuffer::Sort()
 
 std::vector<RenderCommand> CommandBuffer::GetRenderCommands()
 {
-    return RenderCommands
+    return RenderCommands;
 }

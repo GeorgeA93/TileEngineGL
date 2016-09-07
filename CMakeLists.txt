@@ -16,14 +16,16 @@ option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(vendor/glfw)
 
 include_directories(src/
+        src/Mesh
+        src/Renderer
         vendor/glad/include/
         vendor/glfw/include/
         vendor/glm/
         vendor/stb/)
 
 file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
-file(GLOB PROJECT_HEADERS src/*.h)
-file(GLOB PROJECT_SOURCES src/*.cpp)
+file(GLOB PROJECT_HEADERS src/*.h src/Mesh/*.h src/Renderer/*.h)
+file(GLOB PROJECT_SOURCES src/*.cpp src/Mesh/*.cpp src/Renderer/*.cpp)
 file(GLOB PROJECT_TEXTURES res/textures/*.png
         res/textures/*.jpeg
         res/textures/*.jpg)

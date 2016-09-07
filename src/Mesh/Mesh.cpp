@@ -8,15 +8,15 @@ Mesh::Mesh()
 
 Mesh::Mesh(std::vector<glm::vec3> positions, std::vector<unsigned int> indices)
 {
-    this->Positions = positions;
-    this->Indices = indices;
+    Positions = positions;
+    Indices = indices;
 }
 
 Mesh::Mesh(std::vector<glm::vec3> positions, std::vector<glm::vec2> uv, std::vector<unsigned int> indices)
 {
-    this->Positions = positions;
-    this->UV = uv;
-    this->Indices = indices;
+    Positions = positions;
+    UV = uv;
+    Indices = indices;
 }
 
 void Mesh::Finalize(bool interleaved)
@@ -31,11 +31,11 @@ void Mesh::Finalize(bool interleaved)
     std::vector<float> data;
     if (interleaved)
     {
-        for (int i = 0; i < this->Positions.size(); i++)
+        for (int i = 0; i < Positions.size(); i++)
         {
-            data.push_back(this->Positions[i].x);
-            data.push_back(this->Positions[i].y);
-            data.push_back(this->Positions[i].z);
+            data.push_back(Positions[i].x);
+            data.push_back(Positions[i].y);
+            data.push_back(Positions[i].z);
             if (UV.size() > 0)
             {
                 data.push_back(UV[i].x);
@@ -45,16 +45,16 @@ void Mesh::Finalize(bool interleaved)
     }
     else
     {
-        for (int i = 0; i < this->Positions.size(); ++i)
+        for (int i = 0; i < Positions.size(); ++i)
         {
-            data.push_back(this->Positions[i].x);
-            data.push_back(this->Positions[i].y);
-            data.push_back(this->Positions[i].z);
+            data.push_back(Positions[i].x);
+            data.push_back(Positions[i].y);
+            data.push_back(Positions[i].z);
         }
-        for (int i = 0; i < this->UV.size(); ++i)
+        for (int i = 0; i < UV.size(); ++i)
         {
-            data.push_back(this->UV[i].x);
-            data.push_back(this->UV[i].y);
+            data.push_back(UV[i].x);
+            data.push_back(UV[i].y);
         }
     }
 
@@ -62,15 +62,15 @@ void Mesh::Finalize(bool interleaved)
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), &data[0], GL_STATIC_DRAW);
 
-    if (this->Indices.size() > 0)
+    if (Indices.size() > 0)
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(unsigned int), &this->Indices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Indices.size() * sizeof(unsigned int), &Indices[0], GL_STATIC_DRAW);
     }
     if (interleaved)
     {
         size_t stride = 3 * sizeof(float);
-        if (this->UV.size() > 0)
+        if (UV.size() > 0)
         {
             stride += 2 * sizeof(float);
         }
@@ -79,7 +79,7 @@ void Mesh::Finalize(bool interleaved)
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid *)offset);
         offset += 3 * sizeof(float);
-        if (this->UV.size() > 0)
+        if (UV.size() > 0)
         {
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid *)offset);
