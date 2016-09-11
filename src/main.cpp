@@ -10,7 +10,9 @@
 
 #include "Shader.h"
 
-#include "Mesh/Quad.h"
+#include "Sprite.h"
+
+#include <vector>
 
 void render();
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
@@ -49,7 +51,15 @@ int main()
 
     Shader defaultShader("default.vert", "default.frag");
 
-    Quad quad(0.1, 0.1);
+    std::vector<Sprite> tiles;
+    for (int y = 0; y < 10; y++)
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            Sprite sprite(glm::vec2(x * 0.96, y * 0.96), 0);
+            tiles.push_back(sprite);
+        }
+    }
 
     while (!glfwWindowShouldClose(window))
     {
@@ -59,10 +69,13 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         defaultShader.Use();
-
-        glBindVertexArray(quad.VAO);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, quad.Positions.size());
-        glBindVertexArray(0);
+        for (int i = 0; i < tiles.size(); i ++)
+        {
+            Sprite sprite = tiles[i];
+            glUniformMatrix4fv(glGetUniformLocation(defaultShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(sprite.GetModel()));
+            sprite.Render();
+        }
+      
 
         glfwSwapBuffers(window);
     }
